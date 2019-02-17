@@ -21,13 +21,15 @@
 data x() WORD = 10,20,0,20
 data y() WORD = 10,0,20,0
 x(1)=-20
+dim colsnX(4)
+dim colsnY(4)
 
 data particle() byte =0,0,0,0,6,9,9,6,0,0,0,0
 partLoc = adr(particle)
 partLen = 12 'length of particle array
-data player() byte = 0,0,0,4,14,27,14,4,0,0,0
+data player() byte = 0,0,0,0,4,14,27,14,4,0,0,0,0
 playerLoc = adr(player)
-playerLen = 11
+playerLen = 13
 
 graphics 7 'use 4 color 160x80 mode
 poke 752,1 'turn off cursor in text window
@@ -35,7 +37,7 @@ poke 752,1 'turn off cursor in text window
 'note PM COORDINATES offset by 43,11
 'set up PM mode
 PM=$A000 'empty memory made above
-for i=0 to 3
+for i=0 to 3 
 poke 704+i,15 'set PM color
 next i
 
@@ -59,14 +61,15 @@ x0=80
 y0=40
 color 1
 radius = 39
-exec diamond
+exec octogon
+color 2
 radius = 5
-exec diamond
+exec octogon
 'inner game loop
 
 WHILE NL
 
-pause 0
+pause 0 ' sync with VB
 'move particle locations
 poke 53248,x0+43+X(0) ' x position
 move playerLoc,PM+$200+y0+11+Y(0),playerLen ' y position
@@ -79,23 +82,28 @@ next i
 'do collision detection
 poke 53278,1 'clear collision register
 PAUSE 1 'paint screen once
-P0PF=PEEK(53252) 'check collision register
-IF P0PF 'act on collision
-ENDIF
-
+for i=0 to 3
+    if peek(53252+i) = 2
+        colsnX(i) = 2*SGN(X(i))
+        colsnY(i) = 2*SGN(Y(i))
+    else
+        colsnX(i) = 0
+        colsnY(i) = 0
+    endif
+    PiPj = peek(53260+i)
+next i
 for i=1 to 3
     'update particle locations
-    X(i)=X(i) +SGN(Y(i)) + RAND(3)-1 -(X(i)/33)
-    Y(i)=Y(i) -SGN(X(i)) + RAND(3)-1 -(Y(i)/33)
+    X(i)=X(i) +SGN(Y(i)) + colsnX(i) + RAND(3)-1 -(X(i)/33)
+    Y(i)=Y(i) -SGN(X(i)) + colsnY(i) + RAND(3)-1 -(Y(i)/33)
 next i
 
-'get joystick input
+'get joystick input and move player
 S=STICK(0)
 LR=(S&4=4)-(S&8=8) ' make a +/-1 for left/right
 UD=(S&1=1)-(S&2=2) ' make a +/-1 for up/down
-
-X(0) = X(0) + LR+LR
-Y(0) = Y(0) + UD+UD
+Y(0) = Y(0) + 2*colsnY(0) + UD+UD
+X(0) = X(0) + 2*colsnX(0) + LR+LR
 
 WEND
 
@@ -103,7 +111,7 @@ WEND
 ?,"SCORE:";SC
 SOUND
 
-proc diamond
+proc octogon
     plot   x0-radius/2, y0+radius
     drawto x0+radius/2, y0+radius
     drawto x0+radius,   y0+radius/2
