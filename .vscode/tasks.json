@@ -1,0 +1,25 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "FastBasic Compile",
+            "type": "shell",
+            "command": "C:\\cc65\\fb\\fb-int.bat ${file}",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$msCompile"
+            ]
+        },
+        {
+            "label": "Run Altirra",
+            "type": "shell",
+            "command": "C:\\altirra\\Altirra64.exe ${fileDirname}\\${fileBasenameNoExtension}.xex",
+            "group": "test"
+        }
+    ]
+}
