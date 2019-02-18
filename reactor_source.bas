@@ -18,16 +18,18 @@
 '-----------------------------------------------------------
 
 'set up memory and display
-data x() WORD = 10,20,0,20
-data y() WORD = 10,0,20,0
-x(1)=-20
+data x() WORD = 0,10,0,-10
+data y() WORD = -20,20,20,20
+
 dim colsnX(4)
 dim colsnY(4)
+data alive() BYTE = 1,1,1,1
+numkilled = 0
 
-data particle() byte =0,0,0,0,6,9,9,6,0,0,0,0
+data particle() BYTE =0,0,0,0,6,9,9,6,0,0,0,0
 partLoc = adr(particle)
 partLen = 12 'length of particle array
-data player() byte = 0,0,0,0,4,14,27,14,4,0,0,0,0
+data player() BYTE = 0,0,0,0,4,14,27,14,4,0,0,0,0
 playerLoc = adr(player)
 playerLen = 13
 
@@ -67,7 +69,7 @@ radius = 5
 exec octogon
 'inner game loop
 
-WHILE NL
+WHILE numkilled < 3
 
 pause 0 ' sync with VB
 'move particle locations
@@ -83,19 +85,42 @@ next i
 poke 53278,1 'clear collision register
 PAUSE 1 'paint screen once
 for i=0 to 3
-    if peek(53252+i) = 2
-        colsnX(i) = 2*SGN(X(i))
-        colsnY(i) = 2*SGN(Y(i))
-    else
-        colsnX(i) = 0
-        colsnY(i) = 0
+    colsnX(i) = 0
+    colsnY(i) = 0
+    ' check for playfield collisions
+    PiPF = peek(53252+i)
+    if PiPF&1 = 1
+        alive(i) = 0 ' set flag
+        X(i) = -43-x0 ' remove from screen
+        inc numkilled ' increase kill count
+        ? numkilled ' optional: make another appear at some point
+        ' when kill count is high enough - you win or go to next level
+    elif PiPF&2 = 2
+        colsnX(i) = colsnX(i) + 2*SGN(X(i))
+        colsnY(i) = colsnY(i) + 2*SGN(Y(i))
     endif
+    ' check for player collisions
     PiPj = peek(53260+i)
+    if PiPj > 0
+        if PiPj&1 = 1
+            j = 0
+        elif PiPj&2 = 2
+            j = 1
+        elif PiPj&4 = 4
+            j = 2
+        elif PiPj&8 = 8
+            j = 3
+        endif 
+        exec bounce
+    endif
 next i
+
 for i=1 to 3
-    'update particle locations
-    X(i)=X(i) +SGN(Y(i)) + colsnX(i) + RAND(3)-1 -(X(i)/33)
-    Y(i)=Y(i) -SGN(X(i)) + colsnY(i) + RAND(3)-1 -(Y(i)/33)
+    if alive(i) 
+        'update particle locations
+        X(i)=X(i) +SGN(Y(i)) + colsnX(i) + RAND(3)-1 -(X(i)/32)
+        Y(i)=Y(i) -SGN(X(i)) + colsnY(i) + RAND(3)-1 -(Y(i)/32)
+    endif
 next i
 
 'get joystick input and move player
@@ -110,6 +135,13 @@ WEND
 'update outer game loop text
 ?,"SCORE:";SC
 SOUND
+
+end
+
+proc bounce
+    colsnX(i) = colsnX(i) + 2*SGN(X(i)-X(j))
+    colsnY(i) = colsnY(i) + 2*SGN(Y(i)-Y(j))
+endproc
 
 proc octogon
     plot   x0-radius/2, y0+radius
