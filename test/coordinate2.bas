@@ -1,7 +1,6 @@
-data player() BYTE = 0,0,0,0,8,8,28,127,28,8,8,0,0,0,0
-playerLoc = adr(player)
-playerLen = 15
-LL=15
+data particle() BYTE = 0,0,0,0,0,6,11,15,6,0,0,0,0,0
+
+LL=14
 DIM X(4),Y(4)
 
 GR.8:GR.5:POKE 752,1
@@ -14,7 +13,7 @@ gr.7
 'MAX Y=100 $64
 
 PM=$AC00
-MOVE ADR(player),PM,LL
+MOVE ADR(particle),PM,LL
 POKE 704,15
 POKE 54279,PM/256:'             Tell ANTIC where PM RAM is
 POKE 53277,3:'                     Enable PM display
@@ -40,7 +39,7 @@ WHILE NL
 pause 2
 
 MOVE PM,PM+$200+Y(0)+Y0+9,LL
-POKE 53248,X(0)+X0+44
+POKE 53248,X(0)+X0+43
 
 S=STICK(0)
 LR=(S&4=4)-(S&8=8)
