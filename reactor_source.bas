@@ -25,8 +25,9 @@ dim colsnX(4)
 dim colsnY(4)
 data alive() BYTE = 1,1,1,1
 numkilled = 0
+numlives = 5
 
-data particle() BYTE =0,0,0,0,6,9,9,6,0,0,0,0
+data particle() BYTE = 0,0,0,0,6,9,9,6,0,0,0,0
 partLoc = adr(particle)
 partLen = 12 'length of particle array
 data player() BYTE = 0,0,0,0,4,14,27,14,4,0,0,0,0
@@ -64,12 +65,29 @@ y0=40
 color 1
 radius = 39
 exec octogon
-color 2
-radius = 5
-exec octogon
+'radius = 5
+'exec octogon
 'inner game loop
 
-WHILE numkilled < 3
+?:?,"press FIRE to start";
+WHILE STRIG(0):WEND
+CLS
+LEVEL=0:NL=3
+
+?:?LEVEL,NL;
+
+rate = 15
+counter = rate-1
+
+WHILE numkilled < 3 AND numlives > 0
+inc counter
+if counter MOD rate = 0
+    color 2
+    radius = counter/rate
+    exec octogon
+endif
+
+POKE 657,22:?SC;" ";
 
 pause 0 ' sync with VB
 'move particle locations
@@ -91,8 +109,16 @@ for i=0 to 3
     PiPF = peek(53252+i)
     if PiPF&1 = 1
         alive(i) = 0 ' set flag
-        X(i) = -43-x0 ' remove from screen
-        inc numkilled ' increase kill count
+        if i = 0
+            X(i) = 0 
+            Y(i) = -20 ' put at starting position 
+            dec numlives
+            mset PM+$200,128,0 ' clear player from screen
+            exit ' and we're done
+        else
+            X(i) = -43-x0 ' remove from screen
+            inc numkilled ' increase kill count
+        endif
         ? numkilled ' optional: make another appear at some point
         ' when kill count is high enough - you win or go to next level
     elif PiPF&2 = 2
@@ -101,7 +127,7 @@ for i=0 to 3
     endif
     ' check for player collisions
     PiPj = peek(53260+i)
-    if PiPj > 0
+    if PiPj > 0 
         if PiPj&1 = 1
             j = 0
         elif PiPj&2 = 2
@@ -111,15 +137,18 @@ for i=0 to 3
         elif PiPj&8 = 8
             j = 3
         endif 
+        'if i>0 then 
         exec bounce
     endif
 next i
 
 for i=1 to 3
     if alive(i) 
-        'update particle locations
-        X(i)=X(i) +SGN(Y(i)) + colsnX(i) + RAND(3)-1 -(X(i)/32)
-        Y(i)=Y(i) -SGN(X(i)) + colsnY(i) + RAND(3)-1 -(Y(i)/32)
+        'update particle locations 
+    '    X(i)=X(i) + SGN(Y(i)) + colsnX(i) + RAND(3)-1 -(X(i)/32)
+    '    Y(i)=Y(i) - SGN(X(i)) + colsnY(i) + RAND(3)-1 -(Y(i)/32)
+        X(i)=X(i) - SGN((X(i)-X(0))/10) + colsnX(i) + RAND(3)-1 -(X(i)/33)
+        Y(i)=Y(i) - SGN((Y(i)-Y(0))/10) + colsnY(i) + RAND(3)-1 -(Y(i)/33)
     endif
 next i
 
@@ -127,8 +156,8 @@ next i
 S=STICK(0)
 LR=(S&4=4)-(S&8=8) ' make a +/-1 for left/right
 UD=(S&1=1)-(S&2=2) ' make a +/-1 for up/down
-Y(0) = Y(0) + 2*colsnY(0) + UD+UD
-X(0) = X(0) + 2*colsnX(0) + LR+LR
+Y(0) = Y(0) + colsnY(0) + UD+UD
+X(0) = X(0) + colsnX(0) + LR+LR
 
 WEND
 
@@ -136,7 +165,9 @@ WEND
 ?,"SCORE:";SC
 SOUND
 
-end
+if numlives>0 then ? "you win"
+do 
+loop
 
 proc bounce
     colsnX(i) = colsnX(i) + 2*SGN(X(i)-X(j))
