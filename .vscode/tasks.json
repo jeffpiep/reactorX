@@ -6,7 +6,7 @@
         {
             "label": "FastBasic Compile",
             "type": "shell",
-            "command": "C:\\cc65\\fb\\fb-int.bat ${file}",
+            "command": "C:\\cc65\\fb\\fb.bat ${file}",
             "group": {
                 "kind": "build",
                 "isDefault": true

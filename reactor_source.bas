@@ -20,14 +20,13 @@
 'set up memory and display
 ' x and y are the player/missle positions referenced to center of screem
 ' index 0 is player and 1-3 are particles
-data x() WORD = 0,10,0,-10          ' initial X positions
-data y() WORD = -20,20,20,20        ' initial Y positions
+data x() WORD = 0,10,0,-10,0          ' initial X positions
+data y() WORD = -20,20,20,20,0        ' initial Y positions
 'array that stores alive/dead state of PM's
-data alive() BYTE = 1,1,1,1
+
 
 'these are the changes in position due to collisions
-dim colsnX(4)
-dim colsnY(4)
+dim alive(4),colsnX(4),colsnY(4)
 
 'some counters
 numkilled = 0
@@ -73,7 +72,7 @@ CLS
 ?:? "LIVES: ";numlives,"SCORE: ";
 
 WHILE numkilled < 3 AND numlives > 0
-    alive(0) = 1 
+    alive(0) = 0 
     inc counter 'this counter controls the core
     se.1,counter,15 'rotate pretty colors
     if counter MOD rate = 0
@@ -102,7 +101,7 @@ WHILE numkilled < 3 AND numlives > 0
         PiPF = peek(53252+i)
         if PiPF&1 = 1
             'someone hit the wall!
-            alive(i) = 0 ' set flag
+            alive(i) = 1 ' set flag
             freq = 200 ' play a low tone
             if i = 0
                 'it was the player
@@ -120,8 +119,10 @@ WHILE numkilled < 3 AND numlives > 0
         elif PiPF&2 = 2
             freq = 100 ' play mid tone
             ' make PM bounce off core
-            colsnX(i) = colsnX(i) + 2*SGN(X(i))
-            colsnY(i) = colsnY(i) + 2*SGN(Y(i))
+            j=5
+            exec bounce
+            'colsnX(i) = colsnX(i) + 2*SGN(X(i))
+            'colsnY(i) = colsnY(i) + 2*SGN(Y(i))
         endif
         ' check for player collisions
         PiPj = peek(53260+i)
@@ -151,7 +152,7 @@ WHILE numkilled < 3 AND numlives > 0
     freq = 0
 
     for i=1 to 3
-        if alive(i) 
+        if alive(i)=0
             'update particle locations 
             ' they are attracted to the player
             ' and do a little random walk
@@ -173,7 +174,7 @@ WEND
 
 SOUND ' stop sound
 ' figure outcome
-if numkilled=3 and alive(0)
+if numkilled=3 and alive(0)=0
     ?;" you win!";
 else
     ?;" meltdown";
