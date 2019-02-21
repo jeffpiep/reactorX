@@ -1,0 +1,421 @@
+; Imported symbols
+	.globalzp COLCRS
+	.globalzp COLOR
+	.globalzp DRAWLN
+	.globalzp ROWCRS
+
+; Exported symbols
+	.export bytecode_start
+	.exportzp NUM_VARS
+
+	.include "atari.inc"
+
+; TOKENS:
+	.importzp	TOK_BYTE
+	.importzp	TOK_CSTRING
+	.importzp	TOK_CDATA
+	.importzp	TOK_VAR_SADDR
+	.importzp	TOK_VAR_LOAD
+	.importzp	TOK_BYTE_SADDR
+	.importzp	TOK_1
+	.importzp	TOK_PUSH_VAR_LOAD
+	.importzp	TOK_PUSH_BYTE
+	.importzp	TOK_PUSH_1
+	.importzp	TOK_ADD
+	.importzp	TOK_SUB
+	.importzp	TOK_MUL
+	.importzp	TOK_DIV
+	.importzp	TOK_DPEEK
+	.importzp	TOK_L_NOT
+	.importzp	TOK_POKE
+	.importzp	TOK_DPOKE
+	.importzp	TOK_VAR_STORE
+	.importzp	TOK_GRAPHICS
+	.importzp	TOK_PLOT
+	.importzp	TOK_DRAWTO
+	.importzp	TOK_PRINT_STR
+	.importzp	TOK_PRINT_TAB
+	.importzp	TOK_CLOSE
+	.importzp	TOK_JUMP
+	.importzp	TOK_CJUMP
+	.importzp	TOK_FOR
+	.importzp	TOK_FOR_NEXT
+	.importzp	TOK_FOR_EXIT
+	.importzp	TOK_USHL
+	.importzp	TOK_INT_STR
+;-----------------------------
+; Variables
+NUM_VARS = 5
+	.import heap_start
+	.export fb_var_D
+	.export fb_var_I
+	.export fb_var_RADIUS
+	.export fb_var_X0
+	.export fb_var_Y0
+fb_var_D	= heap_start + 6	; Word Array variable
+fb_var_I	= heap_start + 8	; Word variable
+fb_var_RADIUS	= heap_start + 0	; Word variable
+fb_var_X0	= heap_start + 2	; Word variable
+fb_var_Y0	= heap_start + 4	; Word variable
+;-----------------------------
+; Bytecode
+bytecode_start:
+@FastBasic_LINE_1:  ; LINE 1
+	.byte	TOK_BYTE
+	.byte	6
+	.byte	TOK_CLOSE
+	.byte	TOK_BYTE
+	.byte	7
+	.byte	TOK_GRAPHICS
+@FastBasic_LINE_2:  ; LINE 2
+	.byte	TOK_BYTE_SADDR
+	.byte	COLOR
+	.byte	TOK_1
+	.byte	TOK_POKE
+@FastBasic_LINE_3:  ; LINE 3
+	.byte	TOK_BYTE
+	.byte	10
+	.byte	TOK_VAR_STORE
+	.byte	0
+@FastBasic_LINE_4:  ; LINE 4
+	.byte	TOK_BYTE
+	.byte	80
+	.byte	TOK_VAR_STORE
+	.byte	1
+@FastBasic_LINE_5:  ; LINE 5
+	.byte	TOK_BYTE
+	.byte	40
+	.byte	TOK_VAR_STORE
+	.byte	2
+@FastBasic_LINE_9:  ; LINE 9
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_SUB
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_ADD
+	.byte	TOK_POKE
+	.byte	TOK_PLOT
+@FastBasic_LINE_10:  ; LINE 10
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_ADD
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_ADD
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_11:  ; LINE 11
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_ADD
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_ADD
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_12:  ; LINE 12
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_ADD
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_SUB
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_13:  ; LINE 13
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_ADD
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_SUB
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_14:  ; LINE 14
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_SUB
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_SUB
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_15:  ; LINE 15
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_SUB
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_SUB
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_16:  ; LINE 16
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_SUB
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_ADD
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_17:  ; LINE 17
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_DIV
+	.byte	TOK_SUB
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_ADD
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_19:  ; LINE 19
+	.byte	TOK_VAR_SADDR
+	.byte	3
+	.byte	TOK_CDATA
+	.word	jump_lbl_1
+	.word	65535
+	.word	1
+	.word	2
+	.word	2
+	.word	1
+	.word	65535
+	.word	65534
+	.word	65534
+	.word	65535
+	.word	1
+	.word	2
+jump_lbl_1:
+@FastBasic_LINE_20:  ; LINE 20
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_SUB
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_MUL
+	.byte	TOK_ADD
+	.byte	TOK_POKE
+	.byte	TOK_PLOT
+@FastBasic_LINE_21:  ; LINE 21
+	.byte	TOK_VAR_SADDR
+	.byte	4
+	.byte	TOK_PUSH_1
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE
+	.byte	8
+	.byte	TOK_PUSH_1
+	.byte	TOK_FOR
+	.byte	TOK_L_NOT
+	.byte	TOK_CJUMP
+	.word	jump_lbl_2
+jump_lbl_3:
+@FastBasic_LINE_22:  ; LINE 22
+	.byte	TOK_BYTE_SADDR
+	.byte	COLCRS
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	3
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	4
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_MUL
+	.byte	TOK_ADD
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE_SADDR
+	.byte	ROWCRS
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	3
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	4
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_ADD
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	0
+	.byte	TOK_MUL
+	.byte	TOK_ADD
+	.byte	TOK_POKE
+	.byte	TOK_BYTE
+	.byte	DRAWLN
+	.byte	TOK_DRAWTO
+@FastBasic_LINE_23:  ; LINE 23
+	.byte	TOK_VAR_LOAD
+	.byte	3
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	4
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_INT_STR
+	.byte	TOK_PRINT_STR
+	.byte	TOK_CSTRING
+	.byte	1, " "
+	.byte	TOK_PRINT_STR
+	.byte	TOK_VAR_LOAD
+	.byte	3
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	4
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_ADD
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_INT_STR
+	.byte	TOK_PRINT_STR
+	.byte	TOK_PRINT_TAB
+@FastBasic_LINE_24:  ; LINE 24
+	.byte	TOK_FOR_NEXT
+	.byte	TOK_CJUMP
+	.word	jump_lbl_3
+jump_lbl_2:
+	.byte	TOK_FOR_EXIT
+@FastBasic_LINE_26:  ; LINE 26
+jump_lbl_4:
+@FastBasic_LINE_27:  ; LINE 27
+	.byte	TOK_JUMP
+	.word	jump_lbl_4

@@ -523,6 +523,16 @@ jump_lbl_11:
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_ADD
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	20
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_COMP_0
+	.byte	TOK_L_NOT
+	.byte	TOK_MUL
 	.byte	TOK_POKE
 @FastBasic_LINE_91:  ; LINE 91
 	.byte	TOK_VAR_LOAD
@@ -910,18 +920,6 @@ jump_lbl_28:
 	.byte	TOK_CJUMP
 	.word	jump_lbl_29
 jump_lbl_30:
-@FastBasic_LINE_155:  ; LINE 155
-	.byte	TOK_VAR_LOAD
-	.byte	2
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	20
-	.byte	TOK_USHL
-	.byte	TOK_ADD
-	.byte	TOK_DPEEK
-	.byte	TOK_COMP_0
-	.byte	TOK_L_NOT
-	.byte	TOK_CJUMP
-	.word	jump_lbl_31
 @FastBasic_LINE_160:  ; LINE 160
 	.byte	TOK_VAR_LOAD
 	.byte	0
@@ -1036,8 +1034,6 @@ jump_lbl_30:
 	.byte	TOK_DIV
 	.byte	TOK_SUB
 	.byte	TOK_DPOKE
-@FastBasic_LINE_162:  ; LINE 162
-jump_lbl_31:
 @FastBasic_LINE_163:  ; LINE 163
 	.byte	TOK_FOR_NEXT
 	.byte	TOK_CJUMP
@@ -1154,24 +1150,24 @@ jump_lbl_8:
 	.byte	TOK_L_NOT
 	.byte	TOK_L_AND
 	.byte	TOK_CJUMP
-	.word	jump_lbl_32
+	.word	jump_lbl_31
 @FastBasic_LINE_178:  ; LINE 178
 	.byte	TOK_CSTRING
 	.byte	9, " you win!"
 	.byte	TOK_PRINT_STR
 @FastBasic_LINE_179:  ; LINE 179
 	.byte	TOK_JUMP
-	.word	jump_lbl_34
-jump_lbl_32:
+	.word	jump_lbl_33
+jump_lbl_31:
 @FastBasic_LINE_180:  ; LINE 180
 	.byte	TOK_CSTRING
 	.byte	9, " meltdown"
 	.byte	TOK_PRINT_STR
 @FastBasic_LINE_183:  ; LINE 183
-jump_lbl_34:
+jump_lbl_33:
 @FastBasic_LINE_184:  ; LINE 184
 	.byte	TOK_JUMP
-	.word	jump_lbl_34
+	.word	jump_lbl_33
 @FastBasic_LINE_186:  ; LINE 186
 proc_lbl_BOUNCE:
 @FastBasic_LINE_187:  ; LINE 187

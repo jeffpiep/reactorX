@@ -87,7 +87,7 @@ WHILE numkilled < 3 AND numlives > 0
     move playerLoc,PM+$200+y0+9+Y(0),playerLen ' y position
     'move particle locations
     for i=1 to 3
-        poke 53248+i,x0+43+X(i) ' x position
+        poke 53248+i,(x0+43+X(i))*(alive(i)=0) ' x position
         move partLoc,PM+$200+i*128+y0+9+Y(i),partLen ' y position
     next i
 
@@ -152,14 +152,14 @@ WHILE numkilled < 3 AND numlives > 0
     freq = 0
 
     for i=1 to 3
-        if alive(i)=0
+        'if alive(i)=0
             'update particle locations 
             ' they are attracted to the player
             ' and do a little random walk
             ' and stay away from the walls
             X(i)=X(i) - SGN((X(i)-X(0))/10) + colsnX(i) + RAND(3)-1 -(X(i)/33)
             Y(i)=Y(i) - SGN((Y(i)-Y(0))/10) + colsnY(i) + RAND(3)-1 -(Y(i)/33)
-        endif
+        'endif
     next i
 
     'get joystick input and move player
@@ -199,3 +199,4 @@ proc octogon
     drawto x0-radius,   y0+radius/2
     drawto x0-radius/2, y0+radius
 endproc
+

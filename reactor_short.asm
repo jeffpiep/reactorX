@@ -56,6 +56,7 @@
 	.importzp	TOK_DRAWTO
 	.importzp	TOK_PRINT_STR
 	.importzp	TOK_PRINT_TAB
+	.importzp	TOK_PRINT_EOL
 	.importzp	TOK_CLOSE
 	.importzp	TOK_PUT
 	.importzp	TOK_JUMP
@@ -97,29 +98,29 @@ NUM_VARS = 23
 	.export fb_var_W
 	.export fb_var_X
 	.export fb_var_Y
-fb_var_A	= heap_start + 4	; Word Array variable
-fb_var_B	= heap_start + 22	; Word variable
-fb_var_C	= heap_start + 20	; Word variable
-fb_var_D	= heap_start + 42	; Word variable
-fb_var_E	= heap_start + 10	; Word variable
+fb_var_A	= heap_start + 6	; Word Array variable
+fb_var_B	= heap_start + 20	; Word variable
+fb_var_C	= heap_start + 18	; Word variable
+fb_var_D	= heap_start + 0	; Word Array variable
+fb_var_E	= heap_start + 32	; Word variable
 fb_var_F	= heap_start + 36	; Word variable
-fb_var_G	= heap_start + 44	; Word variable
-fb_var_I	= heap_start + 32	; Word variable
+fb_var_G	= heap_start + 42	; Word variable
+fb_var_I	= heap_start + 30	; Word variable
 fb_var_J	= heap_start + 38	; Word variable
-fb_var_K	= heap_start + 14	; Word variable
+fb_var_K	= heap_start + 12	; Word variable
 fb_var_L	= heap_start + 16	; Word variable
 fb_var_M	= heap_start + 34	; Word variable
 fb_var_N	= heap_start + 40	; Word variable
-fb_var_P	= heap_start + 12	; Word variable
-fb_var_Q	= heap_start + 26	; Word variable
-fb_var_R	= heap_start + 30	; Word variable
-fb_var_S	= heap_start + 24	; Word variable
-fb_var_T	= heap_start + 18	; Word variable
-fb_var_U	= heap_start + 6	; Word Array variable
-fb_var_V	= heap_start + 8	; Word Array variable
-fb_var_W	= heap_start + 28	; Word variable
-fb_var_X	= heap_start + 0	; Word Array variable
-fb_var_Y	= heap_start + 2	; Word Array variable
+fb_var_P	= heap_start + 44	; Word variable
+fb_var_Q	= heap_start + 24	; Word variable
+fb_var_R	= heap_start + 28	; Word variable
+fb_var_S	= heap_start + 22	; Word variable
+fb_var_T	= heap_start + 14	; Word variable
+fb_var_U	= heap_start + 8	; Word Array variable
+fb_var_V	= heap_start + 10	; Word Array variable
+fb_var_W	= heap_start + 26	; Word variable
+fb_var_X	= heap_start + 2	; Word Array variable
+fb_var_Y	= heap_start + 4	; Word Array variable
 ;-----------------------------
 ; Bytecode
 bytecode_start:
@@ -128,27 +129,38 @@ bytecode_start:
 	.byte	0
 	.byte	TOK_CDATA
 	.word	jump_lbl_1
-	.word	0
-	.word	10
-	.word	0
-	.word	65526
-	.word	0
+	.word	65535
+	.word	1
+	.word	2
+	.word	2
+	.word	1
+	.word	65535
+	.word	65534
+	.word	65534
+	.word	65535
+	.word	1
+	.word	2
 jump_lbl_1:
 	.byte	TOK_VAR_SADDR
 	.byte	1
 	.byte	TOK_CDATA
 	.word	jump_lbl_2
+	.word	0
+	.word	10
+	.word	0
+	.word	65526
+	.word	0
+jump_lbl_2:
+	.byte	TOK_VAR_SADDR
+	.byte	2
+	.byte	TOK_CDATA
+	.word	jump_lbl_3
 	.word	65516
 	.word	20
 	.word	20
 	.word	20
 	.word	0
-jump_lbl_2:
-	.byte	TOK_VAR_SADDR
-	.byte	2
-	.byte	TOK_BYTE
-	.byte	8
-	.byte	TOK_DIM
+jump_lbl_3:
 	.byte	TOK_VAR_SADDR
 	.byte	3
 	.byte	TOK_BYTE
@@ -159,36 +171,18 @@ jump_lbl_2:
 	.byte	TOK_BYTE
 	.byte	8
 	.byte	TOK_DIM
-	.byte	TOK_CSTRING
-	.byte	14, "     0Xx0     "
-	.byte	TOK_PUSH_1
-	.byte	TOK_ADD
-	.byte	TOK_VAR_STORE
+	.byte	TOK_VAR_SADDR
 	.byte	5
-	.byte	TOK_CSTRING
-	.byte	16, "    !!q", 194, 176, "q!!    "
-	.byte	TOK_PUSH_1
-	.byte	TOK_ADD
-	.byte	TOK_VAR_STORE
-	.byte	6
+	.byte	TOK_BYTE
+	.byte	8
+	.byte	TOK_DIM
 	.byte	TOK_0
 	.byte	TOK_VAR_STORE
+	.byte	6
+	.byte	TOK_BYTE
+	.byte	15
+	.byte	TOK_VAR_STORE
 	.byte	7
-@FastBasic_LINE_2:  ; LINE 2
-	.byte	TOK_BYTE
-	.byte	5
-	.byte	TOK_VAR_STORE
-	.byte	8
-	.byte	TOK_BYTE
-	.byte	9
-	.byte	TOK_VAR_STORE
-	.byte	9
-	.byte	TOK_VAR_LOAD
-	.byte	9
-	.byte	TOK_PUSH_1
-	.byte	TOK_SUB
-	.byte	TOK_VAR_STORE
-	.byte	10
 	.byte	TOK_BYTE
 	.byte	6
 	.byte	TOK_CLOSE
@@ -200,12 +194,23 @@ jump_lbl_2:
 	.byte	TOK_SADDR
 	.byte	TOK_1
 	.byte	TOK_POKE
+@FastBasic_LINE_2:  ; LINE 2
+	.byte	TOK_BYTE
+	.byte	5
+	.byte	TOK_VAR_STORE
+	.byte	8
+	.byte	TOK_VAR_LOAD
+	.byte	7
+	.byte	TOK_PUSH_1
+	.byte	TOK_SUB
+	.byte	TOK_VAR_STORE
+	.byte	9
 	.byte	TOK_NUM
 	.word	40960
 	.byte	TOK_VAR_STORE
-	.byte	11
+	.byte	10
 	.byte	TOK_VAR_LOAD
-	.byte	11
+	.byte	10
 	.byte	TOK_PUSH
 	.byte	TOK_NUM
 	.word	1024
@@ -229,9 +234,6 @@ jump_lbl_2:
 	.byte	TOK_BYTE
 	.byte	46
 	.byte	TOK_POKE
-	.byte	TOK_0
-	.byte	TOK_VAR_STORE
-	.byte	12
 	.byte	TOK_NUM
 	.word	704
 	.byte	TOK_SADDR
@@ -250,43 +252,47 @@ jump_lbl_2:
 	.byte	TOK_NUM
 	.word	16463
 	.byte	TOK_DPOKE
+	.byte	TOK_0
+	.byte	TOK_VAR_STORE
+	.byte	11
+	.byte	TOK_BYTE
+	.byte	80
+	.byte	TOK_VAR_STORE
+	.byte	12
+	.byte	TOK_BYTE
+	.byte	40
+	.byte	TOK_VAR_STORE
+	.byte	13
+	.byte	TOK_BYTE
+	.byte	19
+	.byte	TOK_VAR_STORE
+	.byte	14
 	.byte	TOK_BYTE_SADDR
 	.byte	COLOR
 	.byte	TOK_1
 	.byte	TOK_POKE
 @FastBasic_LINE_3:  ; LINE 3
-	.byte	TOK_BYTE
-	.byte	80
-	.byte	TOK_VAR_STORE
-	.byte	13
-	.byte	TOK_BYTE
-	.byte	40
-	.byte	TOK_VAR_STORE
-	.byte	14
-	.byte	TOK_BYTE
-	.byte	39
-	.byte	TOK_VAR_STORE
-	.byte	15
 	.byte	TOK_CALL
 	.word	proc_lbl_O
 	.byte	TOK_PRINT_TAB
 	.byte	TOK_CSTRING
 	.byte	4, "FIRE"
 	.byte	TOK_PRINT_STR
-jump_lbl_3:
+	.byte	TOK_PRINT_EOL
+jump_lbl_4:
 	.byte	TOK_NUM
 	.word	644
 	.byte	TOK_PEEK
 	.byte	TOK_COMP_0
 	.byte	TOK_L_NOT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_3
+	.word	jump_lbl_4
 	.byte	TOK_BYTE
 	.byte	CLS
 	.byte	TOK_PUT
-jump_lbl_5:
+jump_lbl_6:
 	.byte	TOK_VAR_LOAD
-	.byte	7
+	.byte	6
 	.byte	TOK_PUSH_BYTE
 	.byte	3
 	.byte	TOK_LT
@@ -296,19 +302,19 @@ jump_lbl_5:
 	.byte	TOK_GT
 	.byte	TOK_L_AND
 	.byte	TOK_CJUMP
-	.word	jump_lbl_6
+	.word	jump_lbl_7
 	.byte	TOK_VAR_LOAD
-	.byte	2
+	.byte	3
 	.byte	TOK_SADDR
 	.byte	TOK_0
 	.byte	TOK_DPOKE
 	.byte	TOK_INCVAR
-	.byte	10
+	.byte	9
 	.byte	TOK_NUM
 	.word	709
 	.byte	TOK_SADDR
 	.byte	TOK_VAR_LOAD
-	.byte	10
+	.byte	9
 	.byte	TOK_USHL
 	.byte	TOK_USHL
 	.byte	TOK_USHL
@@ -318,59 +324,59 @@ jump_lbl_5:
 	.byte	TOK_ADD
 	.byte	TOK_POKE
 	.byte	TOK_VAR_LOAD
-	.byte	10
-	.byte	TOK_PUSH_VAR_LOAD
 	.byte	9
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	7
 	.byte	TOK_MOD
 	.byte	TOK_COMP_0
 	.byte	TOK_L_NOT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_7
+	.word	jump_lbl_8
 	.byte	TOK_BYTE_SADDR
 	.byte	COLOR
 	.byte	TOK_BYTE
 	.byte	2
 	.byte	TOK_POKE
 	.byte	TOK_VAR_LOAD
-	.byte	10
-	.byte	TOK_PUSH_VAR_LOAD
 	.byte	9
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	7
 	.byte	TOK_DIV
 	.byte	TOK_VAR_STORE
-	.byte	15
+	.byte	14
 	.byte	TOK_CALL
 	.word	proc_lbl_O
-jump_lbl_7:
-	.byte	TOK_0
-	.byte	TOK_PAUSE
-@FastBasic_LINE_4:  ; LINE 4
-	.byte	TOK_VAR_LOAD
-	.byte	6
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	11
-	.byte	TOK_PUSH
-	.byte	TOK_NUM
-	.word	561
-	.byte	TOK_ADD
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	1
-	.byte	TOK_DPEEK
-	.byte	TOK_ADD
-	.byte	TOK_PUSH_BYTE
-	.byte	15
-	.byte	TOK_MOVE
+jump_lbl_8:
 	.byte	TOK_NUM
 	.word	53248
 	.byte	TOK_SADDR
 	.byte	TOK_BYTE
 	.byte	124
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	0
+	.byte	1
 	.byte	TOK_DPEEK
 	.byte	TOK_ADD
 	.byte	TOK_POKE
+@FastBasic_LINE_4:  ; LINE 4
+	.byte	TOK_CSTRING
+	.byte	16, "    !!q", 194, 176, "q!!    "
+	.byte	TOK_PUSH_1
+	.byte	TOK_ADD
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	10
+	.byte	TOK_PUSH
+	.byte	TOK_NUM
+	.word	561
+	.byte	TOK_ADD
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	2
+	.byte	TOK_DPEEK
+	.byte	TOK_ADD
+	.byte	TOK_PUSH_BYTE
+	.byte	15
+	.byte	TOK_MOVE
 	.byte	TOK_VAR_SADDR
-	.byte	16
+	.byte	15
 	.byte	TOK_PUSH_1
 	.byte	TOK_DPOKE
 	.byte	TOK_BYTE
@@ -379,43 +385,28 @@ jump_lbl_7:
 	.byte	TOK_FOR
 	.byte	TOK_L_NOT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_8
-jump_lbl_9:
-	.byte	TOK_NUM
-	.word	53248
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.word	jump_lbl_9
+jump_lbl_10:
+	.byte	TOK_CSTRING
+	.byte	14, "     0Xx0     "
+	.byte	TOK_PUSH_1
 	.byte	TOK_ADD
-	.byte	TOK_SADDR
-	.byte	TOK_BYTE
-	.byte	125
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	0
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
-	.byte	TOK_USHL
-	.byte	TOK_ADD
-	.byte	TOK_DPEEK
-	.byte	TOK_ADD
-	.byte	TOK_POKE
-	.byte	TOK_VAR_LOAD
-	.byte	5
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	11
+	.byte	10
 	.byte	TOK_PUSH
 	.byte	TOK_NUM
 	.word	561
 	.byte	TOK_ADD
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_PUSH_BYTE
 	.byte	128
 	.byte	TOK_MUL
 	.byte	TOK_ADD
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	1
+	.byte	2
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
@@ -423,10 +414,42 @@ jump_lbl_9:
 	.byte	TOK_PUSH_BYTE
 	.byte	14
 	.byte	TOK_MOVE
+	.byte	TOK_BYTE
+	.byte	125
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	15
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_ADD
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	3
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	15
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_COMP_0
+	.byte	TOK_L_NOT
+	.byte	TOK_MUL
+	.byte	TOK_VAR_STORE
+	.byte	16
+@FastBasic_LINE_5:  ; LINE 5
+	.byte	TOK_NUM
+	.word	53248
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	15
+	.byte	TOK_ADD
+	.byte	TOK_SADDR
+	.byte	TOK_VAR_LOAD
+	.byte	16
+	.byte	TOK_POKE
 	.byte	TOK_FOR_NEXT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_9
-jump_lbl_8:
+	.word	jump_lbl_10
+jump_lbl_9:
 	.byte	TOK_FOR_EXIT
 	.byte	TOK_NUM
 	.word	53278
@@ -436,7 +459,7 @@ jump_lbl_8:
 	.byte	TOK_1
 	.byte	TOK_PAUSE
 	.byte	TOK_VAR_SADDR
-	.byte	16
+	.byte	15
 	.byte	TOK_PUSH_0
 	.byte	TOK_DPOKE
 	.byte	TOK_BYTE
@@ -445,22 +468,21 @@ jump_lbl_8:
 	.byte	TOK_FOR
 	.byte	TOK_L_NOT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_11_x
-jump_lbl_11:
-@FastBasic_LINE_5:  ; LINE 5
+	.word	jump_lbl_12_x
+jump_lbl_12:
 	.byte	TOK_VAR_LOAD
-	.byte	3
+	.byte	4
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_SADDR
 	.byte	TOK_0
 	.byte	TOK_DPOKE
 	.byte	TOK_VAR_LOAD
-	.byte	4
+	.byte	5
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_SADDR
@@ -469,7 +491,7 @@ jump_lbl_11:
 	.byte	TOK_NUM
 	.word	53252
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_ADD
 	.byte	TOK_PEEK
 	.byte	TOK_VAR_STORE
@@ -481,79 +503,72 @@ jump_lbl_11:
 	.byte	TOK_PUSH_1
 	.byte	TOK_EQ
 	.byte	TOK_CJUMP
-	.word	jump_lbl_12
+	.word	jump_lbl_13
 	.byte	TOK_VAR_LOAD
-	.byte	2
+	.byte	3
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_SADDR
 	.byte	TOK_1
 	.byte	TOK_DPOKE
 	.byte	TOK_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_COMP_0
 	.byte	TOK_L_NOT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_13
+	.word	jump_lbl_14
+	.byte	TOK_NUM
+	.word	41472
+	.byte	TOK_PUSH_BYTE
+	.byte	128
+	.byte	TOK_PUSH_0
+	.byte	TOK_MSET
+	.byte	TOK_DECVAR
+	.byte	8
 	.byte	TOK_VAR_LOAD
-	.byte	0
+	.byte	2
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
-	.byte	TOK_USHL
-	.byte	TOK_ADD
-	.byte	TOK_SADDR
-	.byte	TOK_0
-	.byte	TOK_DPOKE
-	.byte	TOK_VAR_LOAD
-	.byte	1
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
-	.byte	TOK_USHL
-	.byte	TOK_ADD
-	.byte	TOK_SADDR
-	.byte	TOK_VAR_LOAD
 	.byte	15
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_SADDR
+	.byte	TOK_VAR_LOAD
+	.byte	14
 	.byte	TOK_NEG
 	.byte	TOK_PUSH_BYTE
 	.byte	5
 	.byte	TOK_SUB
 	.byte	TOK_DPOKE
-	.byte	TOK_DECVAR
-	.byte	8
+@FastBasic_LINE_6:  ; LINE 6
 	.byte	TOK_VAR_LOAD
-	.byte	11
-	.byte	TOK_PUSH
-	.byte	TOK_NUM
-	.word	512
-	.byte	TOK_ADD
-	.byte	TOK_PUSH_BYTE
-	.byte	128
-	.byte	TOK_PUSH_0
-	.byte	TOK_MSET
-	.byte	TOK_JUMP
-	.word	jump_lbl_11_x
-jump_lbl_13:
-	.byte	TOK_VAR_LOAD
-	.byte	0
+	.byte	1
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_SADDR
+	.byte	TOK_0
+	.byte	TOK_DPOKE
+	.byte	TOK_JUMP
+	.word	jump_lbl_12_x
+jump_lbl_14:
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_SADDR
 	.byte	TOK_NUM
-	.word	65493
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	13
-	.byte	TOK_SUB
+	.word	65413
 	.byte	TOK_DPOKE
 	.byte	TOK_INCVAR
-	.byte	7
-@FastBasic_LINE_6:  ; LINE 6
+	.byte	6
 	.byte	TOK_JUMP
-	.word	jump_lbl_15
-jump_lbl_12:
+	.word	jump_lbl_16
+jump_lbl_13:
 	.byte	TOK_VAR_LOAD
 	.byte	17
 	.byte	TOK_PUSH_BYTE
@@ -563,9 +578,9 @@ jump_lbl_12:
 	.byte	2
 	.byte	TOK_EQ
 	.byte	TOK_CJUMP
-	.word	jump_lbl_15
+	.word	jump_lbl_16
 	.byte	TOK_VAR_LOAD
-	.byte	13
+	.byte	12
 	.byte	TOK_VAR_STORE
 	.byte	18
 	.byte	TOK_BYTE
@@ -574,11 +589,11 @@ jump_lbl_12:
 	.byte	19
 	.byte	TOK_CALL
 	.word	proc_lbl__
-jump_lbl_15:
+jump_lbl_16:
 	.byte	TOK_NUM
 	.word	53260
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_ADD
 	.byte	TOK_PEEK
 	.byte	TOK_VAR_STORE
@@ -588,7 +603,7 @@ jump_lbl_15:
 	.byte	TOK_PUSH_0
 	.byte	TOK_GT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_17
+	.word	jump_lbl_18
 	.byte	TOK_VAR_LOAD
 	.byte	20
 	.byte	TOK_PUSH_1
@@ -596,24 +611,24 @@ jump_lbl_15:
 	.byte	TOK_PUSH_1
 	.byte	TOK_EQ
 	.byte	TOK_CJUMP
-	.word	jump_lbl_18
+	.word	jump_lbl_19
 	.byte	TOK_VAR_LOAD
-	.byte	14
+	.byte	13
 	.byte	TOK_VAR_STORE
 	.byte	18
 	.byte	TOK_0
 	.byte	TOK_VAR_STORE
 	.byte	19
 	.byte	TOK_VAR_LOAD
-	.byte	12
+	.byte	11
 	.byte	TOK_PUSH_BYTE
 	.byte	5
 	.byte	TOK_ADD
 	.byte	TOK_VAR_STORE
-	.byte	12
+	.byte	11
 	.byte	TOK_JUMP
-	.word	jump_lbl_19
-jump_lbl_18:
+	.word	jump_lbl_20
+jump_lbl_19:
 	.byte	TOK_VAR_LOAD
 	.byte	20
 	.byte	TOK_PUSH_BYTE
@@ -623,13 +638,14 @@ jump_lbl_18:
 	.byte	2
 	.byte	TOK_EQ
 	.byte	TOK_CJUMP
-	.word	jump_lbl_20
+	.word	jump_lbl_21
 	.byte	TOK_1
 	.byte	TOK_VAR_STORE
 	.byte	19
+@FastBasic_LINE_7:  ; LINE 7
 	.byte	TOK_JUMP
-	.word	jump_lbl_19
-jump_lbl_20:
+	.word	jump_lbl_20
+jump_lbl_21:
 	.byte	TOK_VAR_LOAD
 	.byte	20
 	.byte	TOK_PUSH_BYTE
@@ -639,14 +655,14 @@ jump_lbl_20:
 	.byte	4
 	.byte	TOK_EQ
 	.byte	TOK_CJUMP
-	.word	jump_lbl_22
+	.word	jump_lbl_23
 	.byte	TOK_BYTE
 	.byte	2
 	.byte	TOK_VAR_STORE
 	.byte	19
 	.byte	TOK_JUMP
-	.word	jump_lbl_19
-jump_lbl_22:
+	.word	jump_lbl_20
+jump_lbl_23:
 	.byte	TOK_VAR_LOAD
 	.byte	20
 	.byte	TOK_PUSH_BYTE
@@ -656,27 +672,26 @@ jump_lbl_22:
 	.byte	8
 	.byte	TOK_EQ
 	.byte	TOK_CJUMP
-	.word	jump_lbl_19
+	.word	jump_lbl_20
 	.byte	TOK_BYTE
 	.byte	3
 	.byte	TOK_VAR_STORE
 	.byte	19
-jump_lbl_19:
-@FastBasic_LINE_7:  ; LINE 7
+jump_lbl_20:
 	.byte	TOK_CALL
 	.word	proc_lbl__
-jump_lbl_17:
+jump_lbl_18:
 	.byte	TOK_FOR_NEXT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_11
-jump_lbl_11_x:
+	.word	jump_lbl_12
+jump_lbl_12_x:
 	.byte	TOK_FOR_EXIT
 	.byte	TOK_VAR_LOAD
 	.byte	18
 	.byte	TOK_PUSH_0
 	.byte	TOK_GT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_25
+	.word	jump_lbl_26
 	.byte	TOK_NUM
 	.word	53760
 	.byte	TOK_SADDR
@@ -699,15 +714,15 @@ jump_lbl_11_x:
 	.byte	3
 	.byte	TOK_POKE
 	.byte	TOK_JUMP
-	.word	jump_lbl_26
-jump_lbl_25:
-	.byte	TOK_SOUND_OFF
+	.word	jump_lbl_27
 jump_lbl_26:
+	.byte	TOK_SOUND_OFF
+jump_lbl_27:
 	.byte	TOK_0
 	.byte	TOK_VAR_STORE
 	.byte	18
 	.byte	TOK_VAR_SADDR
-	.byte	16
+	.byte	15
 	.byte	TOK_PUSH_1
 	.byte	TOK_DPOKE
 	.byte	TOK_BYTE
@@ -716,192 +731,113 @@ jump_lbl_26:
 	.byte	TOK_FOR
 	.byte	TOK_L_NOT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_27
-jump_lbl_28:
+	.word	jump_lbl_28
+jump_lbl_29:
 	.byte	TOK_VAR_LOAD
-	.byte	2
+	.byte	1
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
-	.byte	TOK_USHL
-	.byte	TOK_ADD
-	.byte	TOK_DPEEK
-	.byte	TOK_COMP_0
-	.byte	TOK_L_NOT
-	.byte	TOK_CJUMP
-	.word	jump_lbl_29
-	.byte	TOK_VAR_LOAD
-	.byte	0
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
-	.byte	TOK_USHL
-	.byte	TOK_ADD
-	.byte	TOK_SADDR
-	.byte	TOK_VAR_LOAD
-	.byte	0
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	0
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
-	.byte	TOK_USHL
-	.byte	TOK_ADD
-	.byte	TOK_DPEEK
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	0
+	.byte	1
 	.byte	TOK_DPEEK
 	.byte	TOK_SUB
 	.byte	TOK_PUSH_BYTE
-	.byte	10
+	.byte	9
 	.byte	TOK_DIV
 	.byte	TOK_SGN
-	.byte	TOK_SUB
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	3
+	.byte	4
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
-	.byte	TOK_ADD
-	.byte	TOK_PUSH_BYTE
-	.byte	3
-	.byte	TOK_RAND
-	.byte	TOK_ADD
-	.byte	TOK_PUSH_1
 	.byte	TOK_SUB
-	.byte	TOK_DPOKE
-	.byte	TOK_BYTE
-	.byte	3
-	.byte	TOK_RAND
+	.byte	TOK_PUSH_1
+	.byte	TOK_ADD
 	.byte	TOK_VAR_STORE
-	.byte	21
+	.byte	16
 @FastBasic_LINE_8:  ; LINE 8
 	.byte	TOK_VAR_LOAD
 	.byte	1
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_SADDR
 	.byte	TOK_VAR_LOAD
 	.byte	1
 	.byte	TOK_PUSH_VAR_LOAD
+	.byte	15
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_PUSH_BYTE
+	.byte	3
+	.byte	TOK_RAND
+	.byte	TOK_ADD
+	.byte	TOK_PUSH_VAR_LOAD
 	.byte	16
+	.byte	TOK_SUB
+	.byte	TOK_DPOKE
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	15
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_SADDR
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	1
+	.byte	2
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	1
+	.byte	2
 	.byte	TOK_DPEEK
 	.byte	TOK_SUB
 	.byte	TOK_PUSH_BYTE
-	.byte	10
+	.byte	9
 	.byte	TOK_DIV
 	.byte	TOK_SGN
 	.byte	TOK_SUB
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	4
+	.byte	5
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_ADD
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	21
+	.byte	TOK_PUSH_BYTE
+	.byte	3
+	.byte	TOK_RAND
 	.byte	TOK_ADD
 	.byte	TOK_PUSH_1
 	.byte	TOK_SUB
 	.byte	TOK_DPOKE
-jump_lbl_29:
 	.byte	TOK_FOR_NEXT
 	.byte	TOK_CJUMP
-	.word	jump_lbl_28
-jump_lbl_27:
+	.word	jump_lbl_29
+jump_lbl_28:
 	.byte	TOK_FOR_EXIT
 	.byte	TOK_NUM
 	.word	632
 	.byte	TOK_PEEK
 	.byte	TOK_VAR_STORE
-	.byte	22
-	.byte	TOK_VAR_LOAD
-	.byte	1
-	.byte	TOK_SADDR
-	.byte	TOK_VAR_LOAD
-	.byte	1
-	.byte	TOK_DPEEK
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	4
-	.byte	TOK_DPEEK
-	.byte	TOK_ADD
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	22
-	.byte	TOK_PUSH_1
-	.byte	TOK_BIT_AND
-	.byte	TOK_PUSH_1
-	.byte	TOK_EQ
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	22
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_BIT_AND
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_EQ
-	.byte	TOK_SUB
-	.byte	TOK_MUL
-	.byte	TOK_ADD
-	.byte	TOK_DPOKE
-	.byte	TOK_VAR_LOAD
-	.byte	3
-	.byte	TOK_DPEEK
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	22
-	.byte	TOK_PUSH_BYTE
-	.byte	4
-	.byte	TOK_BIT_AND
-	.byte	TOK_PUSH_BYTE
-	.byte	4
-	.byte	TOK_EQ
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	22
-	.byte	TOK_PUSH_BYTE
-	.byte	8
-	.byte	TOK_BIT_AND
-	.byte	TOK_PUSH_BYTE
-	.byte	8
-	.byte	TOK_EQ
-	.byte	TOK_SUB
-	.byte	TOK_MUL
-	.byte	TOK_ADD
-	.byte	TOK_VAR_STORE
 	.byte	21
-@FastBasic_LINE_9:  ; LINE 9
-	.byte	TOK_VAR_LOAD
-	.byte	0
-	.byte	TOK_SADDR
-	.byte	TOK_VAR_LOAD
-	.byte	0
-	.byte	TOK_DPEEK
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	21
-	.byte	TOK_ADD
-	.byte	TOK_DPOKE
 	.byte	TOK_NUM
 	.word	657
 	.byte	TOK_SADDR
@@ -909,7 +845,7 @@ jump_lbl_27:
 	.byte	2
 	.byte	TOK_POKE
 	.byte	TOK_VAR_LOAD
-	.byte	12
+	.byte	11
 	.byte	TOK_INT_STR
 	.byte	TOK_PRINT_STR
 	.byte	TOK_PRINT_TAB
@@ -917,17 +853,84 @@ jump_lbl_27:
 	.byte	8
 	.byte	TOK_INT_STR
 	.byte	TOK_PRINT_STR
+	.byte	TOK_VAR_LOAD
+	.byte	5
+	.byte	TOK_DPEEK
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	21
+	.byte	TOK_PUSH_1
+	.byte	TOK_BIT_AND
+	.byte	TOK_PUSH_1
+	.byte	TOK_EQ
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	21
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_BIT_AND
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_EQ
+	.byte	TOK_SUB
+	.byte	TOK_MUL
+	.byte	TOK_ADD
+	.byte	TOK_VAR_STORE
+	.byte	16
+@FastBasic_LINE_9:  ; LINE 9
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_SADDR
+	.byte	TOK_VAR_LOAD
+	.byte	2
+	.byte	TOK_DPEEK
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	16
+	.byte	TOK_ADD
+	.byte	TOK_DPOKE
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_SADDR
+	.byte	TOK_VAR_LOAD
+	.byte	1
+	.byte	TOK_DPEEK
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	4
+	.byte	TOK_DPEEK
+	.byte	TOK_ADD
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	21
+	.byte	TOK_PUSH_BYTE
+	.byte	4
+	.byte	TOK_BIT_AND
+	.byte	TOK_PUSH_BYTE
+	.byte	4
+	.byte	TOK_EQ
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	21
+	.byte	TOK_PUSH_BYTE
+	.byte	8
+	.byte	TOK_BIT_AND
+	.byte	TOK_PUSH_BYTE
+	.byte	8
+	.byte	TOK_EQ
+	.byte	TOK_SUB
+	.byte	TOK_MUL
+	.byte	TOK_ADD
+	.byte	TOK_DPOKE
 	.byte	TOK_JUMP
-	.word	jump_lbl_5
-jump_lbl_6:
+	.word	jump_lbl_6
+jump_lbl_7:
 	.byte	TOK_SOUND_OFF
 	.byte	TOK_VAR_LOAD
-	.byte	7
+	.byte	6
 	.byte	TOK_PUSH_BYTE
 	.byte	3
 	.byte	TOK_EQ
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	2
+	.byte	3
 	.byte	TOK_DPEEK
 	.byte	TOK_COMP_0
 	.byte	TOK_L_NOT
@@ -949,31 +952,32 @@ jump_lbl_32:
 	.byte	TOK_JUMP
 	.word	jump_lbl_32
 proc_lbl__:
+@FastBasic_LINE_10:  ; LINE 10
 	.byte	TOK_VAR_LOAD
-	.byte	3
+	.byte	4
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_SADDR
 	.byte	TOK_VAR_LOAD
-	.byte	3
+	.byte	4
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_PUSH_BYTE
 	.byte	2
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	0
+	.byte	1
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	0
+	.byte	1
 	.byte	TOK_PUSH_VAR_LOAD
 	.byte	19
 	.byte	TOK_USHL
@@ -984,32 +988,31 @@ proc_lbl__:
 	.byte	TOK_MUL
 	.byte	TOK_ADD
 	.byte	TOK_DPOKE
-@FastBasic_LINE_10:  ; LINE 10
 	.byte	TOK_VAR_LOAD
-	.byte	4
+	.byte	5
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_SADDR
 	.byte	TOK_VAR_LOAD
-	.byte	4
+	.byte	5
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_PUSH_BYTE
 	.byte	2
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	1
+	.byte	2
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	16
+	.byte	15
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_DPEEK
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	1
+	.byte	2
 	.byte	TOK_PUSH_VAR_LOAD
 	.byte	19
 	.byte	TOK_USHL
@@ -1025,198 +1028,76 @@ proc_lbl_O:
 	.byte	TOK_BYTE_SADDR
 	.byte	COLCRS
 	.byte	TOK_VAR_LOAD
-	.byte	13
+	.byte	12
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
+	.byte	14
 	.byte	TOK_SUB
 	.byte	TOK_DPOKE
 	.byte	TOK_BYTE_SADDR
 	.byte	ROWCRS
 	.byte	TOK_VAR_LOAD
-	.byte	14
+	.byte	13
+	.byte	TOK_PUSH_BYTE
+	.byte	2
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
+	.byte	14
+	.byte	TOK_MUL
 	.byte	TOK_ADD
 	.byte	TOK_POKE
 	.byte	TOK_PLOT
+	.byte	TOK_VAR_SADDR
+	.byte	22
+	.byte	TOK_PUSH_1
+	.byte	TOK_DPOKE
+	.byte	TOK_BYTE
+	.byte	8
+	.byte	TOK_PUSH_1
+	.byte	TOK_FOR
+	.byte	TOK_L_NOT
+	.byte	TOK_CJUMP
+	.word	jump_lbl_37
+jump_lbl_38:
 	.byte	TOK_BYTE_SADDR
 	.byte	COLCRS
 	.byte	TOK_VAR_LOAD
-	.byte	13
+	.byte	12
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
+	.byte	0
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	22
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	14
+	.byte	TOK_MUL
 	.byte	TOK_ADD
 	.byte	TOK_DPOKE
 	.byte	TOK_BYTE_SADDR
 	.byte	ROWCRS
 	.byte	TOK_VAR_LOAD
-	.byte	14
+	.byte	13
 	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
+	.byte	0
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	22
+	.byte	TOK_PUSH_BYTE
+	.byte	2
+	.byte	TOK_ADD
+	.byte	TOK_USHL
+	.byte	TOK_ADD
+	.byte	TOK_DPEEK
+	.byte	TOK_PUSH_VAR_LOAD
+	.byte	14
+	.byte	TOK_MUL
 	.byte	TOK_ADD
 	.byte	TOK_POKE
 	.byte	TOK_BYTE
 	.byte	DRAWLN
 	.byte	TOK_DRAWTO
-	.byte	TOK_BYTE_SADDR
-	.byte	COLCRS
-	.byte	TOK_VAR_LOAD
-	.byte	13
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_ADD
-	.byte	TOK_DPOKE
-	.byte	TOK_BYTE_SADDR
-	.byte	ROWCRS
-	.byte	TOK_VAR_LOAD
-	.byte	14
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
-	.byte	TOK_ADD
-	.byte	TOK_POKE
-	.byte	TOK_BYTE
-	.byte	DRAWLN
-	.byte	TOK_DRAWTO
-	.byte	TOK_BYTE_SADDR
-	.byte	COLCRS
-	.byte	TOK_VAR_LOAD
-	.byte	13
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_ADD
-	.byte	TOK_DPOKE
-	.byte	TOK_BYTE_SADDR
-	.byte	ROWCRS
-	.byte	TOK_VAR_LOAD
-	.byte	14
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
-	.byte	TOK_SUB
-	.byte	TOK_POKE
-	.byte	TOK_BYTE
-	.byte	DRAWLN
-	.byte	TOK_DRAWTO
-	.byte	TOK_BYTE_SADDR
-	.byte	COLCRS
-	.byte	TOK_VAR_LOAD
-	.byte	13
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
-	.byte	TOK_ADD
-	.byte	TOK_DPOKE
-	.byte	TOK_BYTE_SADDR
-	.byte	ROWCRS
-	.byte	TOK_VAR_LOAD
-	.byte	14
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_SUB
-	.byte	TOK_POKE
-	.byte	TOK_BYTE
-	.byte	DRAWLN
-	.byte	TOK_DRAWTO
-	.byte	TOK_BYTE_SADDR
-	.byte	COLCRS
-	.byte	TOK_VAR_LOAD
-	.byte	13
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
-	.byte	TOK_SUB
-	.byte	TOK_DPOKE
-	.byte	TOK_BYTE_SADDR
-	.byte	ROWCRS
-	.byte	TOK_VAR_LOAD
-	.byte	14
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_SUB
-	.byte	TOK_POKE
-	.byte	TOK_BYTE
-	.byte	DRAWLN
-	.byte	TOK_DRAWTO
-@FastBasic_LINE_11:  ; LINE 11
-	.byte	TOK_BYTE_SADDR
-	.byte	COLCRS
-	.byte	TOK_VAR_LOAD
-	.byte	13
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_SUB
-	.byte	TOK_DPOKE
-	.byte	TOK_BYTE_SADDR
-	.byte	ROWCRS
-	.byte	TOK_VAR_LOAD
-	.byte	14
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
-	.byte	TOK_SUB
-	.byte	TOK_POKE
-	.byte	TOK_BYTE
-	.byte	DRAWLN
-	.byte	TOK_DRAWTO
-	.byte	TOK_BYTE_SADDR
-	.byte	COLCRS
-	.byte	TOK_VAR_LOAD
-	.byte	13
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_SUB
-	.byte	TOK_DPOKE
-	.byte	TOK_BYTE_SADDR
-	.byte	ROWCRS
-	.byte	TOK_VAR_LOAD
-	.byte	14
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
-	.byte	TOK_ADD
-	.byte	TOK_POKE
-	.byte	TOK_BYTE
-	.byte	DRAWLN
-	.byte	TOK_DRAWTO
-	.byte	TOK_BYTE_SADDR
-	.byte	COLCRS
-	.byte	TOK_VAR_LOAD
-	.byte	13
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_PUSH_BYTE
-	.byte	2
-	.byte	TOK_DIV
-	.byte	TOK_SUB
-	.byte	TOK_DPOKE
-	.byte	TOK_BYTE_SADDR
-	.byte	ROWCRS
-	.byte	TOK_VAR_LOAD
-	.byte	14
-	.byte	TOK_PUSH_VAR_LOAD
-	.byte	15
-	.byte	TOK_ADD
-	.byte	TOK_POKE
-	.byte	TOK_BYTE
-	.byte	DRAWLN
-	.byte	TOK_DRAWTO
+	.byte	TOK_FOR_NEXT
+	.byte	TOK_CJUMP
+	.word	jump_lbl_38
+jump_lbl_37:
+	.byte	TOK_FOR_EXIT
 	.byte	TOK_RET
