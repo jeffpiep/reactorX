@@ -26,7 +26,6 @@
 	.importzp	TOK_PUSH_BYTE
 	.importzp	TOK_PUSH_0
 	.importzp	TOK_PUSH_1
-	.importzp	TOK_NEG
 	.importzp	TOK_SGN
 	.importzp	TOK_ADD
 	.importzp	TOK_SUB
@@ -274,9 +273,8 @@ jump_lbl_3:
 @FastBasic_LINE_3:  ; LINE 3
 	.byte	TOK_CALL
 	.word	proc_lbl_O
-	.byte	TOK_PRINT_TAB
 	.byte	TOK_CSTRING
-	.byte	4, "FIRE"
+	.byte	9, "Push FIRE"
 	.byte	TOK_PRINT_STR
 	.byte	TOK_PRINT_EOL
 jump_lbl_4:
@@ -534,12 +532,11 @@ jump_lbl_12:
 	.byte	TOK_USHL
 	.byte	TOK_ADD
 	.byte	TOK_SADDR
-	.byte	TOK_VAR_LOAD
+	.byte	TOK_NUM
+	.word	65534
+	.byte	TOK_PUSH_VAR_LOAD
 	.byte	14
-	.byte	TOK_NEG
-	.byte	TOK_PUSH_BYTE
-	.byte	5
-	.byte	TOK_SUB
+	.byte	TOK_MUL
 	.byte	TOK_DPOKE
 @FastBasic_LINE_6:  ; LINE 6
 	.byte	TOK_VAR_LOAD
@@ -939,14 +936,14 @@ jump_lbl_7:
 	.word	jump_lbl_30
 	.byte	TOK_PRINT_TAB
 	.byte	TOK_CSTRING
-	.byte	4, "win!"
+	.byte	8, "you win!"
 	.byte	TOK_PRINT_STR
 	.byte	TOK_JUMP
 	.word	jump_lbl_32
 jump_lbl_30:
 	.byte	TOK_PRINT_TAB
 	.byte	TOK_CSTRING
-	.byte	8, "meltdown"
+	.byte	10, "*meltdown*"
 	.byte	TOK_PRINT_STR
 jump_lbl_32:
 	.byte	TOK_JUMP
