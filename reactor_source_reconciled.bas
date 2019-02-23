@@ -108,7 +108,7 @@ WHILE numkilled < 3 AND numlives > 0
         elif PiPF&2 = 2
             freq = 80 ' play mid tone
             ' make PM bounce off core
-            j=5
+            j=4
             exec bounce
         endif
         ' check for player collisions
