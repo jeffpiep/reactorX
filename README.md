@@ -4,7 +4,7 @@ An Atari entry to the [2019 BASIC 10-Liner Contest](http://gkanold.wixsite.com/h
 
 [Download](https://github.com/jeffpiep/reactorX/raw/master/reactorx.xex) the XEX file and play on your favorite 800XL emulator (e.g., [Altirra](http://www.virtualdub.org/altirra.html)). Or, play on real hardware with the [ATR file](https://github.com/jeffpiep/reactorX/raw/master/reactorX.atr).
 
-See my [writeup](https://jeffpiepmeier.blogspot.com/2019/02/reactorx-my-2019-basic-10-liner.html).
+See my [writeup](https://jeffpiepmeier.blogspot.com/2019/02/reactorx.html).
 
 ReactorX requires one joystick to play. Manuever your ship to bump the particles into the outer wall before the core expands and the reactor goes into meltdown.
 
