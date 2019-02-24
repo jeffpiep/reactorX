@@ -1,4 +1,10 @@
 <table style="border: 1px solid gray; width: 100%;">
+  <colgroup>
+    <col style="width: 55%;">
+    </col>
+    <col style="width: 45%;">
+    </col>
+  </colgroup>
   <tbody>
     <tr style="background-color: white;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">data D() WORD =
@@ -6,8 +12,9 @@
       </td>
       <td>Array to store info to draw an octagon. The drawing routine is at the bottom of the listing.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">data x() WORD = 0,10,0,-10,0
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">data x() WORD =
+        0,10,0,-10,0<br />
         data y() WORD = -20,20,20,20,0
       </td>
       <td>Arrays to store X and Y positions of sprites with initial positions. Fifth index is the origin so I can reuse
@@ -15,19 +22,19 @@
       </td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">dim alive(4),colsnX(4),colsnY(4)
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">dim alive(4), colsnX(4),
+        colsnY(4)
       </td>
-      <td>Arrays that store alive/dead state of PM's and changes in position due to collisions
-      </td>
+      <td>Arrays that store alive/dead state of PM's and changes in position due to collisions.</td>
     </tr>
-    <tr style="background-color: grey;">
+    <tr style="background-color: #dddddd;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">numkilled = 0<br />
         numlives = 5<br />
         score=0<br />
         rate = 15<br />
         counter = rate-1
       </td>
-      <td>Some counters</td>
+      <td>Initialize some counters.</td>
     </tr>
     <tr style="background-color: white;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">graphics 7<br />
@@ -37,7 +44,7 @@
         Turn off cursor in text window
       </td>
     </tr>
-    <tr style="background-color: grey;">
+    <tr style="background-color: #dddddd;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">PM=$A000
         mset $a000,1024,0<br />
         poke 54279,PM/256<br />
@@ -58,7 +65,7 @@
         the text window
       </td>
     </tr>
-    <tr style="background-color: grey;">
+    <tr style="background-color: #dddddd;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">x0=80<br />
         y0=40<br />
         color 1<br />
@@ -76,24 +83,24 @@
       </td>
       <td>Wait for player to start the game.</td>
     </tr>
-    <tr style="background-color: grey;">
+    <tr style="background-color: #dddddd;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">WHILE numkilled &lt; 3 AND
         numlives&gt; 0
       </td>
       <td>This begins the main game loop</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">&nbsp; alive(0) = 0 </td>
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">alive(0) = 0 </td>
       <td>Reset the player is still alive flag. </td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">&nbsp; inc counter<br />
-        &nbsp; setcolor 1,counter,15<br />
-        &nbsp; if counter MOD rate = 0<br />
-        &nbsp; &nbsp; color 2
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">inc counter<br />
+        setcolor 1,counter,15<br />
+        if counter MOD rate = 0<br />
+        color 2<br />
         radius = counter/rate<br />
-        &nbsp; &nbsp; exec octagon<br />
-        &nbsp; endif</td>
+        exec octagon<br />
+        endif</td>
       <td>Take care of the background graphics. Increment a counter to rotate the colors using the SETCOLOR command.
         Draw
         a larger octagon to enlarge the core every RATE game loop cycles. The EXEC OCTAGON jumps to the drawing routine
@@ -101,96 +108,94 @@
       </td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">&nbsp; poke
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">poke
         53248,x0+44+X(0)<br />
-        &nbsp; move adr(" -stuff-") + 1, PM + $200 + y0 + 9+Y(0),17</td>
+        move adr(" -stuff-") + 1, PM + $200 + y0 + 9+Y(0),17</td>
       <td>Move player location. Poke the X coordinate and MOVE memory for the Y coordinate.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">&nbsp; for i=1 to 3<br />
-        &nbsp; &nbsp; move adr(" ball " ) + 1, PM + $200 + i*128 + y0 + 9 + Y(i), 14<br />
-        &nbsp; &nbsp; poke 53248+i,(x0+43+X(i))*(alive(i)=0)<br />
-        &nbsp; next i
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">for i=1 to 3<br />
+        move adr(" ball " ) + 1, PM + $200 + i*128 + y0 + 9 + Y(i), 14<br />
+        poke 53248+i,(x0+43+X(i))*(alive(i)=0)<br />
+        next i
       </td>
       <td>Loop to move each&nbsp; particle location. If particle is dead, keep it off the screen.</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">poke 53278,1
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">poke 53278,1<br />
         PAUSE 1</td>
       <td>Clear collision register and paint the screen once to record collisions.</td>
     </tr>
-    <tr style="background-color: grey;">
+    <tr style="background-color: #dddddd;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">for i=0 to 3</td>
       <td>Loop through all the PM's</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">colsnX(i) = 0
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">colsnX(i) = 0<br />
         colsnY(i) = 0
       </td>
       <td>Initialize the collision accumulators...</td>
     </tr>
-    <tr style="background-color: grey;">
+    <tr style="background-color: #dddddd;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">PiPF = peek(53252+i)</td>
+      <td>Check the player-player collision register.</td>
     </tr>
-    <tr>and check for playfield collisions.</tr>
+    <tr></tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if PiPF&amp;1 = 1
-
-        alive(i) = 1
-      </td>
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if PiPF&amp;1 = 1<br />
+        alive(i) = 1</td>
       <td>Someone hit the wall! Set the alive/dead flag.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if i = 0
-        X(i) = 0
-        Y(i) = -2*radius
-        dec numlives
-        mset PM+$200,128,0
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if i = 0<br />
+        X(i) = 0<br />
+        Y(i) = -2*radius<br />
+        dec numlives<br />
+        mset PM+$200,128,0<br />
         exit
       </td>
       <td>It was the player's ship. Reset it's position and take away a life. Exit the collision detection loop.</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">else
-        X(i) = -43-x0
-        inc numkilled
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">else<br />
+        X(i) = -43-x0<br />
+        inc numkilled<br />
         endif
       </td>
       <td>It was a particle. Kill it and remove it from the screen.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">elif PiPF&amp;2 = 2
-        freq = 80
-        j=4
-        exec bounce
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">elif PiPF&amp;2 = 2<br />
+        freq = 80<br />
+        j=4<br />
+        exec bounce<br />
         endif</td>
       <td>Something hit the core. Make it bounce and get ready to play a tone.</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">
-        PiPj = peek(53260+i)</td>
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">PiPj = peek(53260+i)</td>
       <td>Now check for player collisions. The 'i' value is subject player and 'j' value is player that was hit.</td>
     </tr>
-    <tr style="background-color: grey;">
+    <tr style="background-color: #dddddd;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if PiPj &gt; 0
       </td>
       <td>Act if there was a collision.</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if PiPj&amp;1 = 1
-        freq = 40
-        j = 0
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if PiPj&amp;1 = 1<br />
+        freq = 40<br />
+        j = 0<br />
         score=score+5
       </td>
       <td>The ship made a hit. Get some points and get ready to play a high-pitched tone.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">elif PiPj&amp;2 = 2
-        j = 1
-        elif PiPj&amp;4 = 4
-        j = 2
-        elif PiPj&amp;8 = 8
-        j = 3
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">elif PiPj&amp;2 = 2<br />
+        j = 1<br />
+        elif PiPj&amp;4 = 4<br />
+        j = 2<br />
+        elif PiPj&amp;8 = 8<br />
+        j = 3<br />
         endif </td>
       <td>Check for collisions with the particles.</td>
     </tr>
@@ -199,43 +204,38 @@
       </td>
       <td>Compute bounce position change.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">endif
-        next i
-      </td>
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">endif<br />
+        next i</td>
       <td>Close the loop.</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if freq&gt;0
-        sound 0,freq,10,15
-        else
-        sound
-        endif
-        freq = 0
-      </td>
-      <td>Play a tone if needed.</td>
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if freq&gt;0<br />
+        sound 0,freq,10,15<br />
+        else<br />
+        sound<br />
+        endif<br />
+        freq = 0</td>
+      <td>Play a tone or stop the tone, if needed.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">for i=1 to 3
-        X(i)=X(i) - SGN((X(i)-X(0))/10) + colsnX(i) + RAND(3)-1 -(X(i)/33)
-        Y(i)=Y(i) - SGN((Y(i)-Y(0))/10) + colsnY(i) + RAND(3)-1 -(Y(i)/33)
-        next i
-      </td>
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">for i=1 to 3<br />
+        X(i)=X(i) - SGN((X(i)-X(0))/10) + colsnX(i) + RAND(3)-1 -(X(i)/33)<br />
+        Y(i)=Y(i) - SGN((Y(i)-Y(0))/10) + colsnY(i) + RAND(3)-1 -(Y(i)/33)<br />
+        next i</td>
       <td>Update particle locations: attract to player, add in the bounce, do a little random walk, and stay away from
         the walls.</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">
-        P.657,2
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">P.657,2<br />
         ? score, numlives;</td>
-      <td>Update the scoreboard.</td>
+      <td>Update the scoreboard. The POKE command positions the cursor before printing to the screen.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">
-        S=STICK(0)
-        LR=(S&amp;4=4)-(S&amp;8=8) ' make a +/-1 for left/right
-        UD=(S&amp;1=1)-(S&amp;2=2) ' make a +/-1 for up/down
-        Y(0) = Y(0) + colsnY(0) + UD+UD
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">S=STICK(0)<br />
+        LR=(S&amp;4=4)-(S&amp;8=8)<br />
+        UD=(S&amp;1=1)-(S&amp;2=2)<br />
+        Y(0) = Y(0) + colsnY(0) + UD+UD<br />
         X(0) = X(0) + colsnX(0) + LR+LR
       </td>
       <td>Get joystick input and move the player. Also add in the player bounce move.</td>
@@ -245,44 +245,45 @@
       </td>
       <td>End of game loop.</td>
     </tr>
-    <tr style="background-color: grey;">
+    <tr style="background-color: #dddddd;">
       <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">SOUND
       </td>
       <td>Game over. Stop the sound.</td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if numkilled=3 and alive(0)=0
-        ?;"You Win!";
-        else
-        ?;"/MELTDOWN\";
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">if numkilled=3 and
+        alive(0)=0&nbsp; <br />
+        ?;"You Win!";<br />
+        else<br />
+        ?;"/MELTDOWN\";<br />
         endif
       </td>
       <td>Figure out the result.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">do
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">do<br />
         loop
       </td>
       <td>Wait forever.
       </td>
     </tr>
     <tr style="background-color: white;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">proc bounce
-        colsnX(i) = colsnX(i) + 2*SGN(X(i)-X(j))
-        colsnY(i) = colsnY(i) + 2*SGN(Y(i)-Y(j))
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">proc bounce<br />
+        colsnX(i) = colsnX(i) + 2*SGN(X(i)-X(j))<br />
+        colsnY(i) = colsnY(i) + 2*SGN(Y(i)-Y(j))<br />
         endproc
       </td>
       <td>Procedure to add in bounce motion. The motion is towards the ith particle and away from the jth particle. When
         j=4, the motion is away from the origin.</td>
     </tr>
-    <tr style="background-color: grey;">
-      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">proc octagon
-        plot x0-radius, y0+2*radius
-        for p = 1 to 8
-        drawto x0+D(p)*radius,y0+D(p+2)*radius
-        next p
+    <tr style="background-color: #dddddd;">
+      <td font-size:="" small="" style="font-family: Courier New, Courier, monospace;">proc octagon<br />
+        plot x0-radius, y0 + 2*radius<br />
+        for p = 1 to 8<br />
+        drawto x0 + D(p)*radius, y0 + D(p+2)*radius<br />
+        next p<br />
         endproc</td>
-        <td>Procedure to draw an octagon. Loop through the verticies and draw lines. Scale the size by 'radius.'</td>
+      <td>Procedure to draw an octagon. Loop through the verticies and draw lines. Scale the size by 'radius.'</td>
     </tr>
   </tbody>
 </table>
