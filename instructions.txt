@@ -1,0 +1,27 @@
+To play, download this ATR file: https://github.com/jeffpiep/reactorX/raw/master/reactorX.atr
+Load the REACTORX.ATR file with the Altirra Emulator. It will boot to the DOS menu. 
+If it boots to BASIC, enter "DOS" to get the menu.
+* Select "L"
+Enter "REACTORX.COM"
+
+Press FIRE to start.
+
+Use your joystick to move the white "+"-shaped ship. Bump the particles into the
+outer wall. Don't hit the outer wall with your ship or will lose a life. Push all 
+three particles into the wall to win.
+
+Press RESET to return to the DOS menu (or built-in BASIC).
+Go back to * to play again.
+
+To see the BASIC program code, from the DOS menu ...
+Select "C"
+enter: REACTORX.BAS, S:
+
+To see the BASIC program code in FastBasic, download this ATR file: 
+https://github.com/jeffpiep/reactorX/raw/master/dev/reactorX.atr
+
+Enter "FBI" to load integrer-only FastBasic.
+Press CTRL-L to load and enter "REACTORX.BAS"
+You will now see the BASIC code.
+Press CTRL-R to run or CTRL-Q to quit.
+You can play by entering "REACTORX.COM" at the DOS prompt.
